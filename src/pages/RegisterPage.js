@@ -1,6 +1,8 @@
+// src/pages/RegisterPage.jsx
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Confetti from "react-confetti";
+import { useNavigate } from "react-router-dom"; // ✅ for redirect
 
 function RegisterPage() {
   const [fullName, setFullName] = useState("");
@@ -9,6 +11,9 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
+  const [currentTrivia, setCurrentTrivia] = useState(0);
+
+  const navigate = useNavigate();
 
   // 🌍 Trivia facts
   const triviaFacts = [
@@ -18,7 +23,6 @@ function RegisterPage() {
     "💬 More than 480 million people speak Spanish as their first language.",
     "🎥 The first film with spoken dialogue in Spanish was made in 1931!"
   ];
-  const [currentTrivia, setCurrentTrivia] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,7 +50,11 @@ function RegisterPage() {
       setMessage(`✅ User ${data.username} registered successfully!`);
       setShowConfetti(true);
 
-      setTimeout(() => setShowConfetti(false), 5000);
+      // 🎯 Redirect to LandingPage after 3 seconds
+      setTimeout(() => {
+        setShowConfetti(false);
+        navigate("/"); // go back to LandingPage
+      }, 3000);
 
       setFullName("");
       setUsername("");
@@ -118,7 +126,6 @@ function RegisterPage() {
           className="p-2 rounded bg-white text-black"
           required
         />
-
         <button
           type="submit"
           className="bg-purple-800 hover:bg-purple-700 transition text-white font-semibold py-2 rounded"
